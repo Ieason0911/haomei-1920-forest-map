@@ -307,72 +307,54 @@ aside h2{font-size:.95rem;margin:14px 16px 6px;color:var(--muted);font-weight:60
           <g fill="#e2d48a"><circle cx="-3.6" cy="-15" r=".7"/><circle cx="3.6" cy="-15" r=".7"/><circle cx="-3.6" cy="-12" r=".7"/><circle cx="3.6" cy="-12" r=".7"/><circle cx="-3.6" cy="-9" r=".7"/><circle cx="3.6" cy="-9" r=".7"/></g>
         </symbol>
 
-        <!-- 步道路徑（以近照座標繪製，外層再平移到全域座標） -->
         <path id="trailPath" d="M176 128L262 186 330 228 402 284 470 330 528 364 590 400 650 432 700 458 750 492" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- 以下皆為「全景圖座標」(628×611)，外層放大 4.4 倍 -->
-        <clipPath id="leftClip"><path d="M-400 -300L452 -300 331 0 228 212 201 257 145 315 99 388 94 470 119 562 144 611 260 900H-400Z"/></clipPath>
-        <clipPath id="rightClip"><path d="M706 -300H1000V900H234Z"/></clipPath>
-        <clipPath id="forestClip"><path id="forestPath" d="M335 0L568 0 328 611 150 611 125 560 100 470 105 390 150 320 205 262 232 215Z"/></clipPath>
-        <clipPath id="rowsClip"><path id="rowsPath" d="M215 250L255 160 300 112 470 92 505 115 420 330 405 352 335 358 322 398 262 392 232 340 205 292Z"/></clipPath>
-        <clipPath id="wetClip"><path id="wetPath" d="M150 330L200 302 232 340 262 392 322 398 335 358 405 352 416 340 385 420 354 500 330 560 312 598 190 602 142 560 122 480 124 400Z"/></clipPath>
+        <pattern id="wetTex" width="14" height="8" patternUnits="userSpaceOnUse">
+          <path d="M0 4q3.5-3 7 0t7 0" stroke="#7fb3c9" stroke-width=".7" fill="none" opacity=".55"/>
+        </pattern>
+        <pattern id="waterTex" width="22" height="12" patternUnits="userSpaceOnUse">
+          <path d="M0 6q5.5-4 11 0t11 0" stroke="#4a7d9b" stroke-width=".7" fill="none" opacity=".6"/>
+        </pattern>
+        <clipPath id="forestClip"><path id="forestPath" d="M300 0H963V500L900 520 800 505 720 520 640 560 600 638H0V300L170 125Z"/></clipPath>
       </defs>
 
       <g id="viewport">
-        <rect x="-3000" y="-3000" width="9000" height="9000" fill="#7d9070"/>
-        <g id="base" transform="scale(4.4)">
-          <!-- 魚塭堤岸底色 -->
-          <rect x="-400" y="-300" width="1400" height="1200" fill="#7d9070"/>
-          <g clip-path="url(#leftClip)"><g id="pondsL" transform="rotate(20 160 300)"></g></g>
-          <g clip-path="url(#rightClip)"><g id="pondsR" transform="rotate(-4 480 300)"></g></g>
-
-          <!-- 保安林林地 -->
-          <use href="#forestPath" fill="var(--forest)"/>
-          <g clip-path="url(#forestClip)"><g id="canopy"></g></g>
-          <!-- 整齊排列的林間水道 -->
-          <g clip-path="url(#rowsClip)">
-            <use href="#rowsPath" fill="#2f6a36"/>
-            <g id="rows"></g>
-          </g>
-          <!-- 美漾森林水坑（淹水形成的濱海濕地） -->
-          <use href="#wetPath" fill="var(--wet)"/>
-          <g clip-path="url(#wetClip)">
-            <g id="wetTex"></g>
-            <g id="islands"></g>
-          </g>
-          <!-- 林緣內側小水道 -->
-          <path d="M152 312Q116 366 113 432 112 520 140 584" stroke="var(--channel)" stroke-width="2.2" fill="none"/>
-
-          <!-- 道路 -->
-          <path d="M338 -2L232 215 205 262 150 320 105 390 100 470 125 560 150 613" stroke="#9fb47e" stroke-width="7" fill="none" stroke-linejoin="round"/>
-          <path d="M338 -2L232 215 205 262 150 320 105 390 100 470 125 560 150 613" stroke="var(--road)" stroke-width="3.4" fill="none" stroke-linejoin="round"/>
-          <path d="M572 -2L332 613" stroke="#9fb47e" stroke-width="6"/>
-          <path d="M572 -2L332 613" stroke="var(--road)" stroke-width="3"/>
-          <path d="M584 -2L344 613" stroke="#5f97b0" stroke-width="3"/>
-          <path d="M606 330L598 613" stroke="var(--road)" stroke-width="2.4"/>
+        <rect x="-2000" y="-2000" width="5000" height="5000" fill="var(--water)"/>
+        <rect width="963" height="638" fill="url(#waterTex)"/>
+        <!-- 魚塭堤岸 -->
+        <path d="M0 108L104 112 178 98 186 106 110 128 88 136 102 154 66 230 0 262Z" fill="var(--pond-bank)"/>
+        <path d="M0 126L80 136 92 154 58 222 0 248Z" fill="var(--water-2)"/>
+        <path d="M0 126L80 136 92 154 58 222 0 248Z" fill="url(#waterTex)"/>
+        <!-- 保安林林地 -->
+        <use href="#forestPath" fill="var(--forest)"/>
+        <g clip-path="url(#forestClip)">
+          <g id="canopy"></g>
+          <g id="channels"></g>
         </g>
-
-        <!-- 步道：雙向細條砂地，中間為草堆 -->
-        <g transform="translate(726 1025)">
-          <!-- 截萼黃槿、白千層、木麻黃(長枝) 同一塊林地 -->
-          <path d="M588 404C584 380 612 356 646 354 676 352 694 372 690 398 686 426 660 440 628 438 604 436 590 424 588 404Z" fill="#3f7d40" stroke="#5a9449" stroke-width="2"/>
-          <use href="#trailPath" stroke="#5c9447" stroke-width="18"/>
-          <use href="#trailPath" stroke="#e3cf98" stroke-width="9.5"/>
-          <use href="#trailPath" stroke="#86b35c" stroke-width="3.6"/>
+        <!-- 美漾森林水坑（淹水形成的濱海濕地） -->
+        <path d="M600 638L640 560 720 520 800 505 900 520 963 500V638Z" fill="var(--wet)"/>
+        <path d="M600 638L640 560 720 520 800 505 900 520 963 500V638Z" fill="url(#wetTex)"/>
+        <g fill="#3d7a3f" opacity=".85">
+          <ellipse cx="905" cy="600" rx="28" ry="14"/><ellipse cx="940" cy="575" rx="16" ry="9"/><ellipse cx="660" cy="610" rx="12" ry="7"/>
         </g>
+        <!-- 堤岸道路 -->
+        <path d="M305 -5L172 124 -5 300" stroke="#9ab874" stroke-width="30" fill="none"/>
+        <path d="M305 -5L172 124 -5 300" stroke="var(--road)" stroke-width="15" fill="none" stroke-linejoin="round"/>
+        <path d="M305 -5L172 124 -5 300" stroke="#bfb69f" stroke-width="1" stroke-dasharray="8 8" fill="none"/>
+        <!-- 步道：兩條細砂地，中間為草 -->
+        <use href="#trailPath" stroke="#5c9447" stroke-width="16"/>
+        <use href="#trailPath" stroke="#e3cf98" stroke-width="9"/>
+        <use href="#trailPath" stroke="#86b35c" stroke-width="3.4"/>
 
         <!-- 地名 -->
-        <g font-weight="800" fill="#fff" paint-order="stroke" stroke="rgba(10,25,20,.8)" stroke-linejoin="round" pointer-events="none" font-family="inherit">
-          <text x="842" y="1112" font-size="24" stroke-width="5">入口</text>
-          <text x="300" y="560" font-size="40" fill="#d5e8f2" stroke-width="5">魚塭</text>
-          <text x="2300" y="1400" font-size="40" fill="#d5e8f2" stroke-width="5">魚塭</text>
-          <text x="1720" y="200" font-size="34" stroke-width="5">防風林（密林）</text>
-          <text x="1660" y="760" font-size="30" stroke-width="5" transform="rotate(-63 1660 760)">整齊排列的林間水道</text>
-          <text x="1250" y="1655" font-size="26" stroke-width="5">美漾森林水坑</text>
-          <text x="1262" y="1682" font-size="14" font-weight="600" stroke-width="4">淹水形成的濱海濕地</text>
-          <text x="1000" y="2050" font-size="46" stroke-width="6" opacity=".9">美漾森林水坑</text>
-          <text x="1238" y="420" font-size="22" font-weight="600" stroke-width="4" transform="rotate(-64 1238 420)">堤岸道路</text>
+        <g font-weight="800" fill="#fff" paint-order="stroke" stroke="rgba(10,25,20,.8)" stroke-width="4" stroke-linejoin="round" pointer-events="none">
+          <text x="96" y="110" font-size="22">入口</text>
+          <text x="66" y="44" font-size="15" fill="#d5e8f2" stroke-width="3">魚塭</text>
+          <text x="10" y="196" font-size="12" fill="#d5e8f2" stroke-width="3">魚塭</text>
+          <text x="700" y="560" font-size="22">美漾森林水坑</text>
+          <text x="722" y="580" font-size="11" font-weight="600" stroke-width="3">淹水形成的濱海濕地</text>
+          <text x="236" y="72" font-size="11" font-weight="600" stroke-width="3" transform="rotate(-44 236 72)">堤岸道路</text>
         </g>
-        <circle cx="902" cy="1153" r="8" fill="#e0b73a" stroke="#fff" stroke-width="2.5" pointer-events="none"/>
+        <circle cx="176" cy="128" r="7" fill="#e0b73a" stroke="#fff" stroke-width="2" pointer-events="none"/>
         <g id="markers"></g>
       </g>
     </svg>
@@ -380,8 +362,7 @@ aside h2{font-size:.95rem;margin:14px 16px 6px;color:var(--muted);font-weight:60
     <div class="controls">
       <button id="zin" title="放大" aria-label="放大">＋</button>
       <button id="zout" title="縮小" aria-label="縮小">－</button>
-      <button id="zreset" title="回到步道" aria-label="回到步道">⟲</button>
-      <button id="zall" title="全區" aria-label="顯示全區">全</button>
+      <button id="zreset" title="重設視角" aria-label="重設視角">⟲</button>
       <button id="lblToggle" class="on" title="顯示/隱藏名稱" aria-label="顯示或隱藏名稱">名</button>
     </div>
 
@@ -406,9 +387,9 @@ aside h2{font-size:.95rem;margin:14px 16px 6px;color:var(--muted);font-weight:60
     <div class="legend">
       <span><i style="background:var(--forest)"></i>保安林林地</span>
       <span><i style="background:var(--channel)"></i>林間水道</span>
-      <span><i style="background:var(--wet)"></i>美漾森林水坑</span>
-      <span><i style="background:var(--water)"></i>魚塭</span>
-      <span><i style="background:linear-gradient(90deg,#e3cf98 0 35%,#86b35c 35% 65%,#e3cf98 65%)"></i>雙線砂土步道</span>
+      <span><i style="background:var(--wet)"></i>濱海濕地</span>
+      <span><i style="background:var(--water)"></i>魚塭水域</span>
+      <span><i style="background:linear-gradient(90deg,#e3cf98 0 35%,#86b35c 35% 65%,#e3cf98 65%)"></i>步道</span>
       <span><i style="background:var(--road)"></i>堤岸道路</span>
       <span><i style="border:2.5px solid #d9622b;border-radius:50%;background:#fffdf7"></i>外來種</span>
     </div>
@@ -416,13 +397,11 @@ aside h2{font-size:.95rem;margin:14px 16px 6px;color:var(--muted);font-weight:60
 </main>
 
 <script>
-// 植物座標以步道近照為基準，OX/OY 平移到全域座標（全景圖 ×4.4）
-const OX = 726, OY = 1025;
 const PLANTS = [
   {id:"huangjin", name:"黃槿", sci:"Hibiscus tiliaceus", fam:"錦葵科", icon:"hibiscus", x:230, y:147,
    desc:"海岸常見的常綠小喬木，葉片心形、背面灰白有毛。黃色花朵中心暗紅，早上開、傍晚轉為橙紅後掉落。耐鹽耐風，是海岸防風林的重要樹種，葉子早年常用來墊粿，俗稱「粿葉樹」。",
    tags:["海岸樹種","防風","原生"]},
-  {id:"mumahuang", name:"木麻黃", sci:"Casuarina equisetifolia", fam:"木麻黃科", icon:"casuarina", x:150, y:180, lp:"l",
+  {id:"mumahuang", name:"木麻黃", sci:"Casuarina equisetifolia", fam:"木麻黃科", icon:"casuarina", x:150, y:180,
    desc:"看起來像松樹，其實綠色細長的「針」是小枝，真正的葉退化成小鱗片輪生在節上。果實像小毬果。極耐風沙與鹽分，是台灣西部海岸保安林最主要的造林樹種。",
    tags:["保安林主力","防風定砂","引進種"]},
   {id:"lanli", name:"欖李", sci:"Lumnitzera racemosa", fam:"使君子科", icon:"lumnitzera", x:228, y:186,
@@ -432,14 +411,14 @@ const PLANTS = [
    desc:"常綠灌木至小喬木，葉片革質、倒卵形，邊緣略反捲並集生枝端。春季開白色小花，後轉淡黃，帶清香。果實成熟裂開露出紅色黏質種子。耐鹽抗風，常見於海岸。",
    tags:["海岸灌木","芳香","原生"]},
   {id:"shuihuangpi", name:"水黃皮", sci:"Pongamia pinnata", fam:"豆科", icon:"pongamia", x:306, y:229,
-   desc:"半落葉喬木，奇數羽狀複葉，春夏開淡紫至粉白色蝶形花。莢果扁平木質、不開裂，可隨水漂流傳播。耐鹽、耐淹水，常生長於海岸與河口。此株位於步道旁的林緣。",
-   tags:["海漂植物","步道旁","原生"]},
+   desc:"半落葉喬木，奇數羽狀複葉，春夏開淡紫至粉白色蝶形花。莢果扁平木質、不開裂，可隨水漂流傳播。耐鹽、耐淹水，常生長於海岸與河口。",
+   tags:["海漂植物","耐淹水","原生"]},
   {id:"yinhehuan", name:"銀合歡", sci:"Leucaena leucocephala", fam:"豆科", icon:"leucaena", x:342, y:254, alien:true,
-   desc:"【外來種】原產中美洲，早年引進作為薪材與綠肥。二回羽狀複葉，開白色毛球狀花，結出成串扁平莢果。生長快、種子量大，常在路邊、林緣等開闊地形成單一優勢純林，排擠原生植物，是台灣著名的外來入侵植物。此株生長在步道路邊。",
-   tags:["外來入侵種","路邊","需移除管理"]},
+   desc:"原產中美洲，早年引進作為薪材與綠肥。二回羽狀複葉，開白色毛球狀花，結出成串扁平莢果。生長快、種子量大，常在路邊、林緣等開闊地形成單一優勢純林，排擠原生植物，是台灣著名的外來入侵植物。",
+   tags:["外來入侵種","生長快速","需移除管理"]},
   {id:"longzhuamao", name:"龍爪茅", sci:"Dactyloctenium aegyptium", fam:"禾本科", icon:"dactyloctenium", x:420, y:296,
-   desc:"一年生草本，莖會匍匐生根。穗狀花序 2～7 枝呈放射狀排列於稈頂，像張開的爪子而得名。此處生長在步道中央——步道是兩條細長的砂土車轍，龍爪茅就長在兩條砂地中間的草堆裡。",
-   tags:["草本","步道中央草堆","砂地"]},
+   desc:"一年生草本，莖會匍匐生根。穗狀花序 2～7 枝呈放射狀排列於稈頂，像張開的爪子而得名。常見於海邊沙地、荒地與路旁。",
+   tags:["草本","沙地","路旁"]},
   {id:"hongahilan", name:"紅海欖", sci:"Rhizophora stylosa", fam:"紅樹科", icon:"rhizophora", x:503, y:271,
    desc:"紅樹林植物，最大特徵是從樹幹伸出的拱形「支柱根」，可在泥灘中穩固樹體。具胎生現象：種子在母樹上發芽成細長的胎生苗，成熟後落入泥中生長。台灣野生族群曾消失，現多為復育栽植。",
    tags:["紅樹林","胎生苗","支柱根"]},
@@ -456,14 +435,14 @@ const PLANTS = [
    desc:"枝條輪生、水平展開，樹形層層如塔。葉片大、倒卵形，冬季落葉前轉為紅黃色。果實扁橢圓、外層有纖維可浮於水上，屬海漂植物。",
    tags:["海漂植物","秋冬紅葉","原生"]},
   {id:"jiee", name:"截萼黃槿", sci:"Thespesia populnea", fam:"錦葵科", icon:"thespesia", x:618, y:400, lp:"b",
-   desc:"又名繖楊，外觀與黃槿相似，但葉片較光滑、心形尖端較長，花萼呈截形杯狀而得名。黃花中心為紫紅色，凋謝前也會轉紅。與旁邊的白千層生長在同一塊林地。",
-   tags:["海岸樹種","與黃槿相似","與白千層同區"]},
+   desc:"又名繖楊，外觀與黃槿相似，但葉片較光滑、心形尖端較長，花萼呈截形杯狀而得名。黃花中心為紫紅色，凋謝前也會轉紅。生長於海岸地帶。",
+   tags:["海岸樹種","與黃槿相似"]},
   {id:"mumahuang2", name:"木麻黃（長枝）", sci:"Casuarina sp.", fam:"木麻黃科", icon:"casuarina-long", x:644, y:376,
-   desc:"位於截萼黃槿與白千層這一區，小枝特別細長、明顯下垂。木麻黃屬有數種外觀相近的種類（如細枝、粗枝木麻黃），可比較小枝粗細、節間長度與鱗葉數目來辨識。",
+   desc:"此點位紀錄的是小枝特別細長、明顯下垂的木麻黃。木麻黃屬有數種外觀相近的種類（如細枝、粗枝木麻黃），可比較小枝粗細、節間長度與鱗葉數目來辨識。",
    tags:["保安林主力","比較觀察"]},
   {id:"baiqianceng", name:"白千層", sci:"Melaleuca leucadendra", fam:"桃金孃科", icon:"melaleuca", x:660, y:414,
-   desc:"樹皮灰白、柔軟，如紙般層層剝落，故名「千層」。花為白色瓶刷狀，葉具香氣（可提煉精油）。耐濕耐鹽，常用於濕地與海岸造林。與截萼黃槿相鄰，生長在同一塊林地。",
-   tags:["樹皮千層","耐濕","與截萼黃槿同區"]},
+   desc:"樹皮灰白、柔軟，如紙般層層剝落，故名「千層」。花為白色瓶刷狀，葉具香氣（可提煉精油）。耐濕耐鹽，常用於濕地與海岸造林。",
+   tags:["樹皮千層","耐濕","引進種"]},
 ];
 
 const NS = "http://www.w3.org/2000/svg";
@@ -472,64 +451,57 @@ const vp = document.getElementById("viewport");
 const el = (t, a = {}) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); return n; };
 let seed = 1920;
 const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-const pick = arr => arr[Math.floor(rnd() * arr.length)];
-
-/* ---------- 魚塭格網 ---------- */
-function ponds(g, x0, y0, cols, rows, cw, ch, bank) {
-  const pal = ["#2c5a75", "#336680", "#264d63", "#3b6f84", "#2f5d6a", "#3a6a5a", "#2d4f3e", "#40738a"];
-  for (let j = 0; j < rows; j++) for (let i = 0; i < cols; ) {
-    const span = (i < cols - 1 && rnd() < .25) ? 2 : 1;
-    g.appendChild(el("rect", {x:x0 + i * cw + bank / 2, y:y0 + j * ch + bank / 2, width:cw * span - bank, height:ch - bank, rx:1.5, fill:pick(pal)}));
-    i += span;
-  }
-}
-ponds(document.getElementById("pondsL"), -640, -520, 16, 26, 80, 58, 5);
-ponds(document.getElementById("pondsR"), 200, -360, 9, 26, 92, 52, 5);
 
 /* ---------- 樹冠色塊 ---------- */
 const canopy = document.getElementById("canopy");
 const tones = ["var(--forest-d)", "var(--forest-l)", "#356f37", "#4a8a43", "#2b5a30"];
-for (let i = 0; i < 420; i++) {
-  const x = 90 + rnd() * 490, y = rnd() * 611, r = 3 + rnd() * 9;
-  canopy.appendChild(el("ellipse", {cx:x.toFixed(1), cy:y.toFixed(1), rx:r.toFixed(1), ry:(r * (.55 + rnd() * .4)).toFixed(1), fill:tones[i % 5], opacity:(.35 + rnd() * .4).toFixed(2)}));
+for (let i = 0; i < 260; i++) {
+  const x = rnd() * 963, y = rnd() * 638, r = 10 + rnd() * 34;
+  canopy.appendChild(el("ellipse", {cx:x.toFixed(1), cy:y.toFixed(1), rx:r.toFixed(1), ry:(r * (.55 + rnd() * .4)).toFixed(1), fill:tones[i % 5], opacity:(.35 + rnd() * .4).toFixed(2), transform:`rotate(${(-55 + rnd() * 20).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})`}));
 }
 
-/* ---------- 整齊的林間水道（平行等距） ---------- */
-const D = [0.45, -0.893], N = [0.893, 0.45];   // 水道方向 / 法向
-const SP = 11, CW = 4.2, U0 = 286;             // 間距、水道寬、起點
-const rowsG = document.getElementById("rows");
-const P = (u, t) => [N[0] * u + D[0] * t, N[1] * u + D[1] * t];
-const poly = pts => "M" + pts.map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join("L") + "Z";
-for (let u = U0; u < 540; u += SP) {
-  rowsG.appendChild(el("path", {d:poly([P(u, -700), P(u + CW, -700), P(u + CW, 700), P(u, 700)]), fill:"var(--channel)"}));
-  // 樹列上的樹冠亮帶，強化整齊感
-  rowsG.appendChild(el("path", {d:poly([P(u + CW + 2, -700), P(u + CW + 3.4, -700), P(u + CW + 3.4, 700), P(u + CW + 2, 700)]), fill:"#4f8f45", opacity:".55"}));
+/* ---------- 林間水道：大致平行，帶隨機間距、寬度、長度、角度與斷點 ---------- */
+const channels = document.getElementById("channels");
+const PTS = PLANTS.map(p => [p.x, p.y]);
+function addChannel(cx, cy, ang, len, w, phase) {
+  const d = [Math.cos(ang), Math.sin(ang)], n = [-d[1], d[0]];
+  const t0 = -len / 2, steps = Math.max(6, Math.round(len / 22));
+  const center = t => { const wob = Math.sin(t / 37 + phase) * 4 + Math.sin(t / 13 + phase * 2) * 1.5; return [cx + d[0] * t + n[0] * wob, cy + d[1] * t + n[1] * wob]; };
+  // 植物所在處讓水道斷開，留出陸地
+  const gaps = [];
+  PTS.forEach(([px, py]) => {
+    const t = (px - cx) * d[0] + (py - cy) * d[1];
+    if (t < t0 - 20 || t > -t0 + 20) return;
+    const c = center(t), off = Math.hypot(px - c[0], py - c[1]);
+    if (off < w + 20) gaps.push([t - 24 - rnd() * 8, t + 24 + rnd() * 8]);
+  });
+  const pieces = []; let a = t0;
+  gaps.sort((g1, g2) => g1[0] - g2[0]).forEach(([g0, g1]) => { if (g0 > a + 10) pieces.push([a, g0]); a = Math.max(a, g1); });
+  if (-t0 > a + 10) pieces.push([a, -t0]);
+  pieces.forEach(([s0, s1]) => {
+    const L = [], R = [], k = Math.max(3, Math.round((s1 - s0) / 22));
+    for (let i = 0; i <= k; i++) {
+      const t = s0 + (s1 - s0) * i / k, c = center(t);
+      const taper = Math.pow(Math.sin(Math.PI * i / k), .3);
+      const ww = (w / 2) * taper * (.8 + .4 * Math.sin(t / 19 + phase)) + .8;
+      L.push([c[0] + n[0] * ww, c[1] + n[1] * ww]); R.unshift([c[0] - n[0] * ww, c[1] - n[1] * ww]);
+    }
+    channels.appendChild(el("path", {d:"M" + L.concat(R).map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join("L") + "Z", fill:"var(--channel)", opacity:(.85 + rnd() * .12).toFixed(2)}));
+  });
 }
-// 判斷某點（全景座標）是否落在水道中
-function inChannel(x, y) {
-  const u = N[0] * x + N[1] * y - U0, m = ((u % SP) + SP) % SP;
-  return m < CW + 0.6 || m > SP - 0.6;
-}
-
-/* ---------- 水坑：水紋與樹島 ---------- */
-const wetTex = document.getElementById("wetTex");
-for (let y = 300; y < 611; y += 7) wetTex.appendChild(el("path", {d:`M100 ${y}q4-2 8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0t8 0`, stroke:"#86bad0", "stroke-width":".35", fill:"none", opacity:".6"}));
-const isl = document.getElementById("islands");
-// 上段：延續樹列方向、斷續的樹列
-for (let u = U0 + CW; u < 540; u += SP) {
-  for (let t = -420; t < -230; t += 6 + rnd() * 10) {
-    if (rnd() < .45) continue;
-    const len = 4 + rnd() * 12, a = P(u + 1, t), b = P(u + 1, t + len);
-    isl.appendChild(el("path", {d:`M${a[0].toFixed(1)} ${a[1].toFixed(1)}L${b[0].toFixed(1)} ${b[1].toFixed(1)}`, stroke:pick(["#3d7a3f", "#357036", "#4a8a43"]), "stroke-width":(2.6 + rnd() * 1.8).toFixed(1), "stroke-linecap":"round"}));
+const BASE = -0.99; // 主方向（往右上）
+for (let i = 0; i < 30; i++) {
+  const off = -340 + i * 41 + (rnd() - .5) * 20;
+  const nx = 0.835, ny = 0.55;
+  const cx = 470 + nx * off + (rnd() - .5) * 60, cy = 320 + ny * off + (rnd() - .5) * 60;
+  const ang = BASE + (rnd() - .5) * 0.16;
+  const len = 200 + rnd() * 420, w = 13 + rnd() * 17;
+  addChannel(cx, cy, ang, len, w, rnd() * 6);
+  if (rnd() < .45) { // 偶爾有較短的支水道
+    const t = (rnd() - .5) * len * .6;
+    addChannel(cx + Math.cos(ang) * t + 18, cy + Math.sin(ang) * t + 12, ang + (rnd() - .5) * .25, 60 + rnd() * 120, 6 + rnd() * 8, rnd() * 6);
   }
 }
-// 下段：散生樹島
-for (let i = 0; i < 110; i++) {
-  const x = 125 + rnd() * 270, y = 400 + rnd() * 200, r = 1.8 + rnd() * 6;
-  isl.appendChild(el("ellipse", {cx:x.toFixed(1), cy:y.toFixed(1), rx:r.toFixed(1), ry:(r * (.6 + rnd() * .4)).toFixed(1), fill:pick(["#3d7a3f", "#357036", "#4a8a43", "#2e6233"]), opacity:(.75 + rnd() * .25).toFixed(2)}));
-}
-// 底部砂地空地
-isl.appendChild(el("ellipse", {cx:172, cy:588, rx:22, ry:12, fill:"#b9a882", opacity:".85"}));
 
 /* ---------- 植物按鈕 ---------- */
 const markersG = document.getElementById("markers");
@@ -537,7 +509,6 @@ const list = document.getElementById("plantList");
 document.getElementById("count").textContent = PLANTS.length;
 const markerEls = {};
 PLANTS.forEach(p => {
-  p.wx = p.x + OX; p.wy = p.y + OY;
   const g = el("g", {class:"marker" + (p.alien ? " alien" : ""), tabindex:"0", role:"button", "aria-label":p.name + (p.alien ? "（外來種）" : ""), "data-id":p.id});
   g.appendChild(el("circle", {class:"pulse", r:16}));
   g.appendChild(el("circle", {r:17, fill:"rgba(0,0,0,.28)", cy:1.5}));
@@ -586,36 +557,36 @@ card.querySelector(".close").addEventListener("click", closeCard);
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeCard(); });
 
 /* ---------- 縮放與拖曳（viewBox = 畫面像素） ---------- */
-const WW = 628 * 4.4, WH = 611 * 4.4;                 // 全域尺寸
-const HOME = {x0:OX + 110, y0:OY + 95, x1:OX + 800, y1:OY + 600}; // 預設：步道區
+const WW = 963, WH = 638;
 let cw = 800, ch = 600, k0 = 1, view = {k:1, x:0, y:0}, inited = false;
-const minK = () => Math.min(cw / WW, ch / WH) * 0.95;
-const fit = r => { const k = Math.min(cw / (r.x1 - r.x0), ch / (r.y1 - r.y0)); return {k, x:cw / 2 - (r.x0 + r.x1) / 2 * k, y:ch / 2 - (r.y0 + r.y1) / 2 * k}; };
+const fitAll = () => { const k = Math.min(cw / WW, ch / WH); return {k, x:(cw - WW * k) / 2, y:(ch - WH * k) / 2}; };
 function clampView(v = view) {
-  v.k = Math.min(k0 * 6, Math.max(minK(), v.k));
-  const cx = Math.min(WW, Math.max(0, (cw / 2 - v.x) / v.k)), cy = Math.min(WH, Math.max(0, (ch / 2 - v.y) / v.k));
-  v.x = cw / 2 - cx * v.k; v.y = ch / 2 - cy * v.k;
+  v.k = Math.min(k0 * 6, Math.max(k0, v.k));
+  const sw = WW * v.k, sh = WH * v.k;
+  v.x = sw <= cw ? (cw - sw) / 2 : Math.min(0, Math.max(cw - sw, v.x));
+  v.y = sh <= ch ? (ch - sh) / 2 : Math.min(0, Math.max(ch - sh, v.y));
   return v;
 }
 function apply() {
   clampView();
   vp.setAttribute("transform", `translate(${view.x.toFixed(2)} ${view.y.toFixed(2)}) scale(${view.k.toFixed(4)})`);
-  const f = Math.max(.42, Math.min(1, Math.pow(view.k / k0, .6)));
-  for (const id in markerEls) { const {g, p} = markerEls[id]; g.setAttribute("transform", `translate(${p.wx} ${p.wy}) scale(${(f / view.k).toFixed(4)})`); }
-  svg.classList.toggle("far", view.k < k0 * .65);
+  // 按鈕：預設依地圖比例縮放（同第一版），放大時只微幅變大
+  const base = Math.min(16, Math.max(11, 16 * k0)) / 16;
+  const s = base * Math.pow(view.k / k0, .25) / view.k;
+  for (const id in markerEls) { const {g, p} = markerEls[id]; g.setAttribute("transform", `translate(${p.x} ${p.y}) scale(${s.toFixed(4)})`); }
 }
 function resize() {
   const r = svg.getBoundingClientRect(); if (!r.width) return;
   const cx = (cw / 2 - view.x) / view.k, cy = (ch / 2 - view.y) / view.k;
   cw = r.width; ch = r.height; svg.setAttribute("viewBox", `0 0 ${cw} ${ch}`);
-  k0 = fit(HOME).k;
-  if (!inited) { view = fit(HOME); inited = true; } else { view.x = cw / 2 - cx * view.k; view.y = ch / 2 - cy * view.k; }
+  k0 = fitAll().k;
+  if (!inited) { view = fitAll(); inited = true; } else { view.k = Math.max(view.k, k0); view.x = cw / 2 - cx * view.k; view.y = ch / 2 - cy * view.k; }
   apply();
 }
 new ResizeObserver(resize).observe(svg);
 function toSvg(clientX, clientY) { const r = svg.getBoundingClientRect(); return {x:clientX - r.left, y:clientY - r.top}; }
 function zoomAt(px, py, factor) {
-  const nk = Math.min(k0 * 6, Math.max(minK(), view.k * factor)), f = nk / view.k;
+  const nk = Math.min(k0 * 6, Math.max(k0, view.k * factor)), f = nk / view.k;
   view.x = px - (px - view.x) * f; view.y = py - (py - view.y) * f; view.k = nk; apply();
 }
 function animateTo(target, ms = 450) {
@@ -628,7 +599,7 @@ function animateTo(target, ms = 450) {
   };
   requestAnimationFrame(step);
 }
-function focusOn(p) { const k = Math.max(view.k, k0 * 1.8); animateTo({k, x:cw / 2 - p.wx * k, y:ch / 2 - p.wy * k}); }
+function focusOn(p) { const k = Math.max(view.k, k0 * 2.4); animateTo({k, x:cw / 2 - p.x * k, y:ch / 2 - p.y * k}); }
 
 svg.addEventListener("wheel", e => { e.preventDefault(); const p = toSvg(e.clientX, e.clientY); zoomAt(p.x, p.y, Math.exp(-e.deltaY * .0015)); }, {passive:false});
 const pointers = new Map();
@@ -651,8 +622,7 @@ svg.addEventListener("click", () => { if (moved < 4) closeCard(); });
 
 document.getElementById("zin").onclick = () => zoomAt(cw / 2, ch / 2, 1.5);
 document.getElementById("zout").onclick = () => zoomAt(cw / 2, ch / 2, 1 / 1.5);
-document.getElementById("zreset").onclick = () => animateTo(fit(HOME));
-document.getElementById("zall").onclick = () => animateTo(fit({x0:0, y0:0, x1:WW, y1:WH}));
+document.getElementById("zreset").onclick = () => animateTo(fitAll());
 document.getElementById("lblToggle").onclick = e => { svg.classList.toggle("nolabels"); e.currentTarget.classList.toggle("on"); };
 resize();
 </script>
